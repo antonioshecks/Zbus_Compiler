@@ -1,0 +1,27 @@
+name: Compilador de Zbus ESIME
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4 # Actualizado a v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5 # Actualizado a v5
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: |
+          pip install numpy pandas pyinstaller
+          
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile --console --name="Calculador_Zbus_ESIME" zbus_solver.py
+          
+      - name: Upload
+        uses: actions/upload-artifact@v4 # ¡ESTA ES LA CORRECCIÓN CLAVE!
+        with:
+          name: Programa_Zbus_Windows
+          path: dist/Calculador_Zbus_ESIME.exe
